@@ -2,15 +2,14 @@
 
 /**
  * @Project PHOTOS 4.x
- * @Author KENNY NGUYEN (nguyentiendat713@gmail.com)
+ * @Author KENNY NGUYEN (nguyentiendat713@gmail.com) 
  * @Copyright (C) 2015 tradacongnghe.com. All rights reserved
- * @Based on NukeViet CMS
+ * @Based on NukeViet CMS 
  * @License GNU/GPL version 2 or any later version
  * @Createdate  Mon, 21 Sep 2015 11:18:59 GMT
  */
 
-if( !defined( 'NV_IS_MOD_PHOTO' ) )
-	die( 'Stop!!!' );
+if( ! defined( 'NV_IS_MOD_PHOTO' ) ) die( 'Stop!!!' );
 
 $per_page = 20;
 function GetSourceNews( $sourceid )
@@ -33,7 +32,7 @@ function GetSourceNews( $sourceid )
 function BoldKeywordInStr( $str, $keyword )
 {
 	$str = nv_clean60( $str, 300 );
-	if( !empty( $keyword ) )
+	if( ! empty( $keyword ) )
 	{
 		$tmp = explode( ' ', $keyword );
 		foreach( $tmp as $k )
@@ -55,13 +54,13 @@ $key = trim( nv_substr( $key, 0, NV_MAX_SEARCH_LENGTH ) );
 $keyhtml = nv_htmlspecialchars( $key );
 
 $base_url_rewrite = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&' . NV_NAME_VARIABLE . '=' . $module_name . '&' . NV_OP_VARIABLE . '=' . $op;
-if( !empty( $key ) )
+if( ! empty( $key ) )
 {
 	$base_url_rewrite .= '&q=' . $key;
 }
 
 $catid = $nv_Request->get_int( 'catid', 'get', 0 );
-if( !empty( $catid ) )
+if( ! empty( $catid ) )
 {
 	$base_url_rewrite .= '&catid=' . $catid;
 }
@@ -80,7 +79,7 @@ if( preg_match( '/^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{4})$/', $date_array['to_da
 }
 
 $page = $nv_Request->get_int( 'page', 'get', 1 );
-if( !empty( $page ) )
+if( ! empty( $page ) )
 {
 	$base_url_rewrite .= '&page=' . $page;
 }
@@ -90,16 +89,16 @@ $request_uri = urldecode( $_SERVER['REQUEST_URI'] );
 if( $request_uri != $base_url_rewrite and NV_MAIN_DOMAIN . $request_uri != $base_url_rewrite )
 {
 	header( 'Location: ' . $base_url_rewrite );
-	die( );
+	die();
 }
 
-$array_cat_search = array( );
+$array_cat_search = array();
 foreach( $global_photo_cat as $arr_cat_i )
 {
 	$array_cat_search[$arr_cat_i['category_id']] = array(
 		'catid' => $arr_cat_i['category_id'],
 		'title' => $arr_cat_i['name'],
-		'select' => ($arr_cat_i['category_id'] == $catid) ? 'selected' : ''
+		'select' => ( $arr_cat_i['category_id'] == $catid ) ? 'selected' : ''
 	);
 }
 
@@ -108,7 +107,7 @@ $array_cat_search[0]['title'] = $lang_module['search_all'];
 $contents = call_user_func( 'search_theme', $key, $date_array, $array_cat_search );
 $where = '';
 $tbl_src = '';
-if( empty( $key ) and ($catid == 0) and empty( $from_date ) and empty( $to_date ) )
+if( empty( $key ) and ( $catid == 0 ) and empty( $from_date ) and empty( $to_date ) )
 {
 	$contents .= '<div class="alert alert-danger">' . $lang_module['empty_data_search'] . '</div>';
 }
@@ -119,6 +118,7 @@ else
 	$dbkey = $db->dblikeescape( $key );
 	$dbkeyhtml = $db->dblikeescape( $keyhtml );
 	$where = " AND ( a.name LIKE '%" . $dbkey . "%' OR a.description LIKE '%" . $dbkey . "%' )";
+
 
 	if( preg_match( '/^([0-9]{1,2})\.([0-9]{1,2})\.([0-9]{4})$/', $to_date, $m ) )
 	{
@@ -133,18 +133,25 @@ else
 	{
 		$where .= ' AND a.category_id =' . $catid;
 	}
-
+	
 	$table_search = NV_PREFIXLANG . '_' . $module_data . '_album a';
 
-	$db->sqlreset( )->select( 'COUNT(*)' )->from( $table_search )->join( 'LEFT JOIN  ' . TABLE_PHOTO_NAME . '_rows r ON ( a.album_id = r.album_id )' )->where( 'a.status=1 AND r.defaults = 1 ' . $where );
+	$db->sqlreset()
+	->select( 'COUNT(*)' )
+	->from( $table_search )
+	->join('LEFT JOIN  ' . TABLE_PHOTO_NAME . '_rows r ON ( a.album_id = r.album_id )')
+	->where( 'a.status=1 AND r.defaults = 1 ' . $where );
 
-	$numRecord = $db->query( $db->sql( ) )->fetchColumn( );
+	$numRecord = $db->query( $db->sql() )->fetchColumn();
 
-	$db->select( 'a.album_id,a.name,a.alias,a.category_id,a.description,a.status,a.date_added, r.file' )->order( 'a.date_added DESC' )->limit( $per_page )->offset( ($page - 1) * $per_page );
+	$db->select( 'a.album_id,a.name,a.alias,a.category_id,a.description,a.status,a.date_added, r.file' )
+		->order( 'a.date_added DESC' )
+		->limit( $per_page )
+		->offset( ( $page - 1 ) * $per_page );
 
-	$result = $db->query( $db->sql( ) );
+	$result = $db->query( $db->sql() );
 
-	$array_content = array( );
+	$array_content = array();
 
 	while( list( $album_id, $name, $alias, $category_id, $description, $status, $date_added, $cover_file ) = $result->fetch( 3 ) )
 	{

@@ -161,31 +161,21 @@
 					<label class="col-sm-6 control-label">{LANG.setting_autologosize1}:</label>
 					<div class="col-sm-18">
 						<span class="text-middle pull-left"> {LANG.setting_autologowidth} &nbsp;</span>
-						<input type="text" class="form-control w50 pull-left" value="{DATA.autologosize1}" maxlength="2" name="autologosize1"><span class="text-middle">&nbsp; %  </span>
+						<input type="text" class="form-control w50 pull-left" value="{DATA.autologosize1}" maxlength="2" name="autologosize1"><span class="text-middle">&nbsp; % ảnh </span>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-sm-6 control-label">{LANG.setting_autologosize2}:</label>
 					<div class="col-sm-18">
 						<span class="text-middle pull-left"> {LANG.setting_autologowidth} &nbsp;</span>
-						<input type="text" class="form-control pull-left w50" value="{DATA.autologosize2}" maxlength="2" name="autologosize2"/><span class="text-middle pull-left">&nbsp; %  </span>
+						<input type="text" class="form-control pull-left w50" value="{DATA.autologosize2}" maxlength="2" name="autologosize2"/><span class="text-middle pull-left">&nbsp; % ảnh </span>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="col-sm-6 control-label">{LANG.setting_autologosize3}:</label>
 					<div class="col-sm-18">
 						<span class="text-middle pull-left"> {LANG.setting_autologosample}&nbsp;</span>
-						<input type="text" class="form-control pull-left w50" value="{DATA.autologosize3}" maxlength="2" name="autologosize3"/>&nbsp;<span class="text-middle pull-left">&nbsp; %  </span>
-					</div>
-				</div>
-				<div class="form-group">
-					<label class="col-sm-6 control-label">{LANG.upload_logo_pos}:</label>
-					<div class="col-sm-5">
-						<select class="form-control" name="logo_position">
-							<!-- BEGIN: logopos -->
-							<option value="{logo_position}" {logopos}>{title_logoposition}</option>
-							<!-- END: logopos -->
-						</select>
+						<input type="text" class="form-control pull-left w50" value="{DATA.autologosize3}" maxlength="2" name="autologosize3"/>&nbsp;<span class="text-middle pull-left">&nbsp; % ảnh </span>
 					</div>
 				</div>
 				<div class="form-group">

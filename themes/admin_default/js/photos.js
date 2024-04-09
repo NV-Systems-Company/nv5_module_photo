@@ -54,20 +54,6 @@ function nv_change_album(album_id, mod) {
 	});
 	return;
 }
-function nv_change_hot(album_id, mod) {
-	var nv_timer = nv_settimeout_disable('id_'+mod+'_' + album_id, 5000);
-	var new_vid = $('#id_'+mod+'_' + album_id).val();
-	$.post(script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=main&action='+mod+'&nocache=' + new Date().getTime(), 'album_id=' + album_id + '&new_vid=' + new_vid, function(res) {
-		var r_split = res.split("_");
-		if (r_split[0] != 'OK') {
-			alert(nv_is_change_act_confirm[2]);
-			clearTimeout(nv_timer);
-		} else {
-			window.location.href = window.location.href;
-		}
-	});
-	return;
-}
 
 function delete_album(album_id, token) {
 	if(confirm(lang_del_confirm)) {

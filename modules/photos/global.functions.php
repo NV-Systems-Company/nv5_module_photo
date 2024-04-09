@@ -2,39 +2,39 @@
 
 /**
  * @Project PHOTOS 4.x
- * @Author KENNY NGUYEN (nguyentiendat713@gmail.com)
+ * @Author KENNY NGUYEN (nguyentiendat713@gmail.com) 
  * @Copyright (C) 2015 tradacongnghe.com. All rights reserved
- * @Based on NukeViet CMS
+ * @Based on NukeViet CMS 
  * @License GNU/GPL version 2 or any later version
  * @Createdate  Fri, 18 Sep 2015 11:52:59 GMT
  */
 
-if( !defined( 'NV_MAINFILE' ) )
-	die( 'Stop!!!' );
+if( ! defined( 'NV_MAINFILE' ) ) die( 'Stop!!!' );
 
 global $global_photo_cat, $global_photo_album;
 //$global_photo_cat
-$global_photo_cat = array( );
+$global_photo_cat = array();
 $sql = 'SELECT * FROM ' . TABLE_PHOTO_NAME . '_category ORDER BY sort_order ASC';
 $list = $nv_Cache->db( $sql, 'category_id', $module_name );
 foreach( $list as $l )
 {
 	$global_photo_cat[$l['category_id']] = $l;
 	$global_photo_cat[$l['category_id']]['link'] = NV_BASE_SITEURL . 'index.php?' . NV_LANG_VARIABLE . '=' . NV_LANG_DATA . '&amp;' . NV_NAME_VARIABLE . '=' . $module_name . '&amp;' . NV_OP_VARIABLE . '=' . $l['alias'];
-
+	
 }
 unset( $sql, $list );
-//$global_photo_album
-$global_photo_album = array( );
+//$global_photo_album 
+$global_photo_album = array();
 $sql = 'SELECT * FROM ' . TABLE_PHOTO_NAME . '_album ORDER BY weight ASC';
 $list = $nv_Cache->db( $sql, 'album_id', $module_name );
 foreach( $list as $l )
 {
 	$global_photo_album[$l['album_id']] = $l;
 	$global_photo_album[$l['album_id']]['link'] = $global_photo_cat[$l['category_id']]['link'] . '/' . $l['alias'] . '-' . $l['album_id'];
-
+	
 }
 unset( $sql, $list );
+
 
 /**
  * GetCatidInParent()
@@ -48,7 +48,7 @@ function GetCatidInParent( $category_id, $check_inhome = 0 )
 	global $global_photo_cat, $array_cat;
 	$array_cat[] = $category_id;
 	$subcatid = explode( ',', $global_photo_cat[$category_id]['subcatid'] );
-	if( !empty( $subcatid ) )
+	if( ! empty( $subcatid ) )
 	{
 		foreach( $subcatid as $id )
 		{
@@ -56,7 +56,7 @@ function GetCatidInParent( $category_id, $check_inhome = 0 )
 			{
 				if( $global_photo_cat[$id]['numsubcat'] == 0 )
 				{
-					if( !$check_inhome or ($check_inhome and $global_photo_cat[$id]['inhome'] == 1) )
+					if( ! $check_inhome or ( $check_inhome and $global_photo_cat[$id]['inhome'] == 1 ) )
 					{
 						$array_cat[] = $id;
 					}
@@ -66,7 +66,7 @@ function GetCatidInParent( $category_id, $check_inhome = 0 )
 					$array_cat_temp = GetCatidInParent( $id, $check_inhome );
 					foreach( $array_cat_temp as $catid_i )
 					{
-						if( !$check_inhome or ($check_inhome and $global_photo_cat[$catid_i]['inhome'] == 1) )
+						if( ! $check_inhome or ( $check_inhome and $global_photo_cat[$catid_i]['inhome'] == 1 ) )
 						{
 							$array_cat[] = $catid_i;
 						}
@@ -79,9 +79,9 @@ function GetCatidInParent( $category_id, $check_inhome = 0 )
 }
 
 /**
- * Back-end create thumbs
- * Upload function
- **/
+* Back-end create thumbs
+* Upload function
+**/
 function creatThumb( $file, $dir, $width, $height = 0 )
 {
 
@@ -93,7 +93,7 @@ function creatThumb( $file, $dir, $width, $height = 0 )
 	}
 	else
 	{
-		if( ($width * $image->fileinfo['height'] / $image->fileinfo['width']) > $height )
+		if( ( $width * $image->fileinfo['height'] / $image->fileinfo['width'] ) > $height )
 		{
 			$image->resizeXY( $width, NV_MAX_HEIGHT );
 		}
@@ -118,7 +118,7 @@ function creatThumb( $file, $dir, $width, $height = 0 )
 
 	// Luu anh
 	$image->save( $dir, $fileName );
-	$image->close( );
+	$image->close();
 
 	return substr( $image->create_Image_info['src'], strlen( $dir . '/' ) );
 }
@@ -128,17 +128,15 @@ function creatThumb( $file, $dir, $width, $height = 0 )
  * front-end thumbs create
  *
  */
-if( !nv_function_exists( 'photos_thumbs' ) )
+if( ! nv_function_exists( 'photos_thumbs' ) )
 {
 	function photos_thumbs( $id, $file, $module_upload, $width = 200, $height = 150, $quality = 90 )
 	{
-		if( $width >= $height )
-			$rate = $width / $height;
-		else
-			$rate = $height / $width;
+		if( $width >= $height ) $rate = $width / $height;
+		else  $rate = $height / $width;
 
 		$image = NV_UPLOADS_REAL_DIR . '/' . $module_upload . '/images/' . $file;
-
+ 
 		if( $file != '' and file_exists( $image ) )
 		{
 			$imgsource = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/images/' . $file;
@@ -146,9 +144,9 @@ if( !nv_function_exists( 'photos_thumbs' ) )
 
 			$basename = $module_upload . '_' . $width . 'x' . $height . '-' . $id . '-' . md5_file( $image ) . '.' . $imginfo['ext'];
 
-			if( file_exists( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/' . $module_upload . '/thumbs/' . $basename ) )
+			if( file_exists( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/' . $module_upload. '/thumbs/' . $basename ) )
 			{
-				$imgsource = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/thumbs/' . $basename;
+				$imgsource = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload. '/thumbs/' . $basename;
 			}
 			else
 			{
@@ -160,11 +158,11 @@ if( !nv_function_exists( 'photos_thumbs' ) )
 					$_image->resizeXY( $width, 0 );
 
 				}
-				elseif( ($imginfo['width'] / $imginfo['height']) < $rate )
+				elseif( ( $imginfo['width'] / $imginfo['height'] ) < $rate )
 				{
 					$_image->resizeXY( $width, 0 );
 				}
-				elseif( ($imginfo['width'] / $imginfo['height']) >= $rate )
+				elseif( ( $imginfo['width'] / $imginfo['height'] ) >= $rate )
 				{
 					$_image->resizeXY( 0, $height );
 				}
@@ -173,9 +171,9 @@ if( !nv_function_exists( 'photos_thumbs' ) )
 
 				$_image->save( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/' . $module_upload . '/thumbs/', $basename, $quality );
 
-				if( file_exists( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/' . $module_upload . '/thumbs/' . $basename ) )
+				if( file_exists( NV_ROOTDIR . '/' . NV_UPLOADS_DIR . '/' . $module_upload. '/thumbs/' . $basename ) )
 				{
-					$imgsource = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload . '/thumbs/' . $basename;
+					$imgsource = NV_BASE_SITEURL . NV_UPLOADS_DIR . '/' . $module_upload. '/thumbs/' . $basename;
 				}
 			}
 		}
@@ -189,5 +187,4 @@ if( !nv_function_exists( 'photos_thumbs' ) )
 		}
 		return $imgsource;
 	}
-
 }

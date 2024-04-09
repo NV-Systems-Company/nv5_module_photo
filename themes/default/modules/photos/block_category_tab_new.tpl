@@ -26,7 +26,7 @@
 	</div>
 </div>
 <script>
-$(window).on('load',function(){
+$(window).load(function(){
 	$('#block_album_tab_new_{BLOCK_ID} a:first').tab('show');
 });
 </script>
